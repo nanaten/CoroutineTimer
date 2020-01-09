@@ -26,15 +26,15 @@ class MainViewModel : ViewModel(), CoroutineScope {
     }
 
     fun startTimer() {
-        val timer = onTimer.get() ?: false
-        if (timer) return
+        // タイマー作動
+        if (onTimer.get() == true) return
         onTimer.set(true)
         countTimer()
     }
 
     fun stopTimer() {
-        val timer = onTimer.get() ?: false
-        if (!timer) return
+        // タイマー停止
+        if (onTimer.get() != true) return
         job.cancel()
         onTimer.set(false)
     }
@@ -45,16 +45,16 @@ class MainViewModel : ViewModel(), CoroutineScope {
     }
 
     fun pauseTimer() {
-        val timer = onTimer.get() ?: false
-        if (timer) {
+        // タイマー動作中だったら一時停止する
+        if (onTimer.get() == true) {
             resumeTimer.set(true)
             stopTimer()
         }
     }
 
     fun resumeTimer() {
-        val timer = resumeTimer.get() ?: false
-        if (timer) {
+        // バックグラウンドから戻ったらタイマーを再開する
+        if (resumeTimer.get() == true) {
             resumeTimer.set(false)
             startTimer()
         }
