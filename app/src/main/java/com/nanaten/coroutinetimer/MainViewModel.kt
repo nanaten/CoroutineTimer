@@ -33,6 +33,8 @@ class MainViewModel : ViewModel(), CoroutineScope {
     }
 
     fun stopTimer() {
+        val timer = onTimer.get() ?: false
+        if (!timer) return
         job.cancel()
         onTimer.set(false)
     }
